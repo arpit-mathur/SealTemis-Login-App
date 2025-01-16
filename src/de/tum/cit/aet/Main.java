@@ -11,7 +11,7 @@ public class Main extends Application {
         SealTemisApp app = new SealTemisApp(primaryStage);
         primaryStage.setTitle("SealTemis");
         primaryStage.getIcons().add(new Image("file:images/artemgus.png"));
-        primaryStage.setScene(new Scene(app.getLoginPage(), 600, 500));
+        primaryStage.setScene(new Scene(app.getLoginPage(), 600, 700));
         primaryStage.show();
     }
 
