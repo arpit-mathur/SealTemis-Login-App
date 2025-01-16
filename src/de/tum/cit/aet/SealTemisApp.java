@@ -57,15 +57,17 @@ public class SealTemisApp {
         username.setTextFill(Color.WHITE);
         username.setFont(Font.font("Comic sans ms",FontWeight.NORMAL,16));
 
-        TextField textf1 = new TextField();
-        textf1.setFont(Font.font("Comic sans ms",FontWeight.SEMI_BOLD, 18));
+        TextField usernameField = new TextField();
+        usernameField.setFont(Font.font("Comic sans ms",FontWeight.SEMI_BOLD, 18));
+        usernameField.setPromptText("Enter your username");
 
         Label password = new Label("Password:");
         password.setTextFill(Color.WHITE);
         password.setFont(Font.font("Comic sans ms",FontWeight.NORMAL,16));
 
-        PasswordField passf2 = new PasswordField();
-        passf2.setFont(Font.font("Calibri", FontWeight.THIN,18));
+        PasswordField passwordField = new PasswordField();
+        passwordField.setFont(Font.font("Comic sans ms", FontWeight.SEMI_BOLD,18));
+        passwordField.setPromptText("Enter your password");
 
         Button loginButton = new Button("Login");
        loginButton.setStyle("-fx-font-size: 20px;" +
@@ -82,28 +84,19 @@ public class SealTemisApp {
 
         // TODO 5: Implement the scene change when the login button is clicked
 
-        Label invalidLabel = new Label();
-        invalidLabel.setTextFill(Color.RED);
-        invalidLabel.setFont(Font.font("Comic sans ms",FontWeight.SEMI_BOLD,18));
+        Label errorLabel = new Label();
+        errorLabel.setTextFill(Color.RED);
+        errorLabel.setFont(Font.font("Comic sans ms",FontWeight.SEMI_BOLD,18));
 
 
-        loginButton.setOnAction(action -> {
-            /// If the credentials are valid -->
-            if(users.containsKey(textf1.getText()) && users.get(textf1.getText())
-                    .equals(passf2.getText()) && failedLoginAttempts < 3){
-                currentUser = textf1.getText();
-                stage.setScene(new Scene(getWelcomePage(),600,700));
-            }
-            ///  If the credentials are Invalid -->
-            else {
-                failedLoginAttempts++;
-                if (failedLoginAttempts >= 3){
-                    invalidLabel.setText("Maximum attempts reached! Try again later");
-                }
-                else {
-                    invalidLabel.setText("Invalid username or password. Remaining attempts: " +
-                            (3-failedLoginAttempts));
-                }
+        loginButton.setOnAction(e -> {
+            String username1 = usernameField.getText();
+            String password1 = passwordField.getText();
+            if (users.containsKey(username1) && users.get(username1).equals(password1)) {
+                currentUser = username1;
+                stage.setScene(new Scene(getWelcomePage(), 600, 700));
+            } else {
+                errorLabel.setText("Invalid username or password.");
             }
         });
 
@@ -123,7 +116,7 @@ public class SealTemisApp {
         signupButton.setOnAction(action -> stage.setScene(new Scene(getRegistrationPage(),600,700)));
 
         /// Adding all the nodes to the Scene
-        loginPageLayout.getChildren().addAll(view,welcomeText,username,textf1,password,passf2,loginButton,invalidLabel,createAccountLabel,signupButton);
+        loginPageLayout.getChildren().addAll(view,welcomeText,username,usernameField,password,passwordField,loginButton,errorLabel,createAccountLabel,signupButton);
 
         loginPageLayout.setAlignment(Pos.CENTER);
         return loginPageLayout;
@@ -184,6 +177,7 @@ public class SealTemisApp {
 
         TextField textName = new TextField();
         textName.setFont(Font.font("Comic sans ms",FontWeight.SEMI_BOLD, 18));
+        textName.setPromptText("Enter your Name");
 
         Label username = new Label("Username:");
         username.setTextFill(Color.WHITE);
@@ -191,13 +185,15 @@ public class SealTemisApp {
 
         TextField textUsername = new TextField();
         textUsername.setFont(Font.font("Comic sans ms",FontWeight.SEMI_BOLD, 18));
+        textUsername.setPromptText("Enter your username");
 
         Label password = new Label("Password:");
         password.setTextFill(Color.WHITE);
         password.setFont(Font.font("Comic sans ms",FontWeight.NORMAL,16));
 
         PasswordField passField = new PasswordField();
-        passField.setFont(Font.font("Calibri", FontWeight.THIN,18));
+        passField.setFont(Font.font("Comic sans ms", FontWeight.SEMI_BOLD,18));
+        passField.setPromptText("Enter your password");
 
         Button createAccountButton = new Button("Create Account");
         createAccountButton.setStyle("-fx-font-size: 20px;" +
@@ -205,9 +201,9 @@ public class SealTemisApp {
                 "-fx-background-color: #0000EE;" +
                 "-fx-text-fill: 'white';");
 
-        Label invalidInput = new Label("");
-        invalidInput.setTextFill(Color.RED);
-        invalidInput.setFont(Font.font("Comic sans ms",FontWeight.BOLD,18));
+        Label errorLabel = new Label("");
+        errorLabel.setTextFill(Color.RED);
+        errorLabel.setFont(Font.font("Comic sans ms",FontWeight.BOLD,18));
 
         //Helpful CSS styling for the login page background:
         registrationPageLayout.setStyle("-fx-background-image: url('file:images/NavyBlueSolid.png');"
@@ -218,15 +214,16 @@ public class SealTemisApp {
         // TODO 5: Implement the scene change when the createAccount button is clicked
 
         createAccountButton.setOnAction(action -> {
+
             if(!textName.getText().isEmpty() && !textUsername.getText().isEmpty() && !passField.getText().isEmpty()) {
-                /// setting failed login attempts to 0 for 3 more chances
+                /// Resetting the failed login attempts
                 failedLoginAttempts = 0;
                 users.putIfAbsent(textUsername.getText(), passField.getText());
                 currentUser = textName.getText();
                 stage.setScene(new Scene(getAccountCreatedPage(), 600, 700));
             }
             else{
-                invalidInput.setText("Invalid Input! Please Retry.");
+                errorLabel.setText("Invalid Input! Please Retry.");
             }
         });
 
@@ -240,7 +237,7 @@ public class SealTemisApp {
         goBack.setOnAction(action -> stage.setScene(new Scene(getLoginPage(),600,700)));
 
         /// Adding all the nodes to the Scene
-        registrationPageLayout.getChildren().addAll(view,welcomeText,name,textName,username,textUsername,password,passField,createAccountButton,invalidInput,goBack);
+        registrationPageLayout.getChildren().addAll(view,welcomeText,name,textName,username,textUsername,password,passField,createAccountButton,errorLabel,goBack);
 
         registrationPageLayout.setAlignment(Pos.CENTER);
         return registrationPageLayout;
