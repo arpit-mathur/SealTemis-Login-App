@@ -35,9 +35,10 @@ public class SealTemisApp {
         this.failedLoginAttempts = 0;
     }
 
-    public Pane getLoginPage() {
 
-        VBox loginPage = new VBox(15);
+    /// Main Login Page
+    public Pane getLoginPage() {
+        VBox loginPageLayout = new VBox(13);
         // TODO 2: Add an artemgus logo as image to the Login page
         Image image = new Image("file:images/artemgus.png");
         ImageView view = new ImageView(image);
@@ -61,40 +62,39 @@ public class SealTemisApp {
 
         Label password = new Label("Password:");
         password.setTextFill(Color.WHITE);
-
         password.setFont(Font.font("Comic sans ms",FontWeight.NORMAL,16));
 
         PasswordField passf2 = new PasswordField();
         passf2.setFont(Font.font("Calibri", FontWeight.THIN,18));
 
         Button loginButton = new Button("Login");
-        loginButton.setStyle("-fx-font-size: 20px;" +
-                "-fx-font-family: 'Comic Sans MS';" +
-                "-fx-background-color: 'green';" +
-                "-fx-text-fill: 'white';");
-
+       loginButton.setStyle("-fx-font-size: 20px;" +
+               "-fx-font-family: 'Comic Sans MS';" +
+               "-fx-background-color: 'green';" +
+               "-fx-text-fill: 'white';");
 
 
         //Helpful CSS styling for the login page background:
-        loginPage.setStyle("-fx-background-image: url('file:images/NavyBlueSolid.png');"
+        loginPageLayout.setStyle("-fx-background-image: url('file:images/NavyBlueSolid.png');"
                 + "-fx-background-size: cover;"
                 + "-fx-background-position: center center;"+
                 "-fx-padding: 70;");
 
         // TODO 5: Implement the scene change when the login button is clicked
 
-        Label invalidLabel = new Label("");
+        Label invalidLabel = new Label();
         invalidLabel.setTextFill(Color.RED);
-        invalidLabel.setFont(Font.font("Comic sans ms",FontWeight.NORMAL,18));
-
+        invalidLabel.setFont(Font.font("Comic sans ms",FontWeight.SEMI_BOLD,18));
 
 
         loginButton.setOnAction(action -> {
+            /// If the credentials are valid -->
             if(users.containsKey(textf1.getText()) && users.get(textf1.getText())
                     .equals(passf2.getText()) && failedLoginAttempts < 3){
                 currentUser = textf1.getText();
                 stage.setScene(new Scene(getWelcomePage(),600,700));
             }
+            ///  If the credentials are Invalid -->
             else {
                 failedLoginAttempts++;
                 if (failedLoginAttempts >= 3){
@@ -105,16 +105,16 @@ public class SealTemisApp {
                             (3-failedLoginAttempts));
                 }
             }
-                });
+        });
 
 
-        /// Optional -->
+        /// Optional Challenge -->
         Label createAccountLabel = new Label("Don't have an account?");
         createAccountLabel.setTextFill(Color.LIGHTGRAY);
         createAccountLabel.setFont(Font.font("Comic sans ms",FontWeight.NORMAL,18));
 
         Button signupButton = new Button("Sign up here");
-        signupButton.setStyle("-fx-font-size: 20px;" +
+        signupButton.setStyle("-fx-font-size: 18px;" +
                 "-fx-font-family: 'Comic Sans MS';" +
                 "-fx-background-color: 'transparent';" +
                 "-fx-text-fill: 'lightgray';"+
@@ -123,18 +123,18 @@ public class SealTemisApp {
         signupButton.setOnAction(action -> stage.setScene(new Scene(getRegistrationPage(),600,700)));
 
         /// Adding all the nodes to the Scene
-        loginPage.getChildren().addAll(view,welcomeText,username,textf1,password,passf2,loginButton,invalidLabel,createAccountLabel,signupButton);
+        loginPageLayout.getChildren().addAll(view,welcomeText,username,textf1,password,passf2,loginButton,invalidLabel,createAccountLabel,signupButton);
 
-        loginPage.setAlignment(Pos.CENTER);
-        return loginPage;
+        loginPageLayout.setAlignment(Pos.CENTER);
+        return loginPageLayout;
     }
 
+
     public Pane getWelcomePage() {
+        VBox welcomePageLayout = new VBox(30);
 
-        VBox welcomePage = new VBox(30);
-
-        welcomePage.setAlignment(Pos.CENTER);
-        welcomePage.setStyle("-fx-background-image: url('file:images/NavyBlueSolid.png');"
+        welcomePageLayout.setAlignment(Pos.CENTER);
+        welcomePageLayout.setStyle("-fx-background-image: url('file:images/NavyBlueSolid.png');"
                 + "-fx-background-size: cover;"
                 + "-fx-background-position: center center;");
 
@@ -154,8 +154,8 @@ public class SealTemisApp {
                 "-fx-text-fill: 'white';");
         logoutButton.setOnAction(action -> stage.setScene(new Scene(getLoginPage(),600,700)));
 
-        welcomePage.getChildren().addAll(view, welcomeLabel,logoutButton);
-        return welcomePage;
+        welcomePageLayout.getChildren().addAll(view, welcomeLabel,logoutButton);
+        return welcomePageLayout;
     }
 
 
@@ -163,11 +163,11 @@ public class SealTemisApp {
 
     public Pane getRegistrationPage() {
 
-        VBox registrationPage = new VBox(13);
+        VBox registrationPageLayout = new VBox(13);
         // TODO 2: Add an artemgus logo as image to the Login page
         Image image = new Image("file:images/artemgus3.png");
         ImageView view = new ImageView(image);
-        view.setFitWidth(230);
+        view.setFitWidth(200);
         view.setPreserveRatio(true);
 
         // TODO 3: Add the welcome text to the login page
@@ -210,7 +210,7 @@ public class SealTemisApp {
         invalidInput.setFont(Font.font("Comic sans ms",FontWeight.BOLD,18));
 
         //Helpful CSS styling for the login page background:
-        registrationPage.setStyle("-fx-background-image: url('file:images/NavyBlueSolid.png');"
+        registrationPageLayout.setStyle("-fx-background-image: url('file:images/NavyBlueSolid.png');"
                 + "-fx-background-size: cover;"
                 + "-fx-background-position: center center;"+
                 "-fx-padding: 70;");
@@ -240,19 +240,19 @@ public class SealTemisApp {
         goBack.setOnAction(action -> stage.setScene(new Scene(getLoginPage(),600,700)));
 
         /// Adding all the nodes to the Scene
-        registrationPage.getChildren().addAll(view,welcomeText,name,textName,username,textUsername,password,passField,createAccountButton,invalidInput,goBack);
+        registrationPageLayout.getChildren().addAll(view,welcomeText,name,textName,username,textUsername,password,passField,createAccountButton,invalidInput,goBack);
 
-        registrationPage.setAlignment(Pos.CENTER);
-        return registrationPage;
+        registrationPageLayout.setAlignment(Pos.CENTER);
+        return registrationPageLayout;
     }
 
 
     public Pane getAccountCreatedPage() {
 
-        VBox accountCreatedPage = new VBox(20);
+        VBox accountCreatedPageLayout = new VBox(20);
 
-        accountCreatedPage.setAlignment(Pos.CENTER);
-        accountCreatedPage.setStyle("-fx-background-image: url('file:images/NavyBlueSolid.png');"
+        accountCreatedPageLayout.setAlignment(Pos.CENTER);
+        accountCreatedPageLayout.setStyle("-fx-background-image: url('file:images/NavyBlueSolid.png');"
                 + "-fx-background-size: cover;"
                 + "-fx-background-position: center center;"+
                 "-fx-padding: 70;");
@@ -274,7 +274,7 @@ public class SealTemisApp {
 
         logoutButton.setOnAction(action -> stage.setScene(new Scene(getLoginPage(),600,700)));
 
-        accountCreatedPage.getChildren().addAll(view, welcomeLabel,logoutButton);
-        return accountCreatedPage;
+        accountCreatedPageLayout.getChildren().addAll(view, welcomeLabel,logoutButton);
+        return accountCreatedPageLayout;
     }
 }
