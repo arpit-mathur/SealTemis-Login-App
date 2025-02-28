@@ -24,13 +24,13 @@ public class SealTemisApp {
     private String currentUser;
 
     /// attribute to count the number of failed attempts
-    int failedLoginAttempts;
+    private int failedLoginAttempts;
 
     public SealTemisApp(Stage stage) {
         this.stage = stage;
         // TODO 1: Add a student user and a instructor user to the database to be able to login with them
-        users.putIfAbsent("student","student123");
-        users.putIfAbsent("instructor","instructor123");
+        users.put("student","student123");
+        users.put("instructor","instructor123");
         /// Initializing to count the number of failed login attempts
         this.failedLoginAttempts = 0;
     }
@@ -127,12 +127,11 @@ public class SealTemisApp {
                 "-fx-text-fill: 'lightgray';"+
                 "-fx-underline: true;"
         );
-
-
+        
         /// Sets the scene to the registration page
         signupButton.setOnAction(action -> stage.setScene(new Scene(getRegistrationPage(),600,750)));
 
-        /// Adding all the nodes to the pane (scene)
+        /// Adding all the nodes to the pane and then the pane to the scene
         loginPageLayout.getChildren()
                 .addAll(view,welcomeText,username,usernameField,password,passwordField,loginButton,errorLabel,createAccountLabel,signupButton);
 
@@ -174,6 +173,7 @@ public class SealTemisApp {
             stage.setScene(new Scene(getLoginPage(),600,750));
         });
 
+        
         ///adding the nodes to the pane
         welcomePageLayout.getChildren().addAll(view, welcomeLabel,logoutButton);
         return welcomePageLayout;
